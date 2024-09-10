@@ -72,10 +72,6 @@ If you wish to contribute to the project, feel free to open a pull request or re
 
 This project is distributed under the [MIT License](LICENSE). It is completely free and open for community improvements.
 
-## Contact
-
-For any questions or support, you can contact the project author at: `your.email@example.com`.
-
 ---
 
 Thank you for using **mg-soundboard**! I hope this application proves useful and that you enjoy the customization and features it offers.

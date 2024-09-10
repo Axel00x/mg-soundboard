@@ -72,10 +72,6 @@ Se desideri contribuire al progetto, sentiti libero di aprire una pull request o
 
 Questo progetto è distribuito sotto la [Licenza MIT](LICENSE). È completamente gratuito e aperto a miglioramenti da parte della comunità.
 
-## Contatti
-
-Per qualsiasi domanda o supporto, puoi contattare l'autore del progetto all'indirizzo email: `tuo.email@example.com`.
-
 ---
 
 Grazie per aver utilizzato **mg-soundboard**! Spero che questa applicazione ti sia utile e che tu possa godere della personalizzazione e delle funzionalità offerte.
