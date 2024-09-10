@@ -1,6 +1,6 @@
 # mg-soundboard - 100% Gratuita
 
-Benvenuto nel progetto **Soundboard**! Questa applicazione è una soundboard gratuita e personalizzabile che ti consente di gestire e riprodurre file audio tramite scorciatoie da tastiera. È progettata per essere semplice da usare e altamente configurabile.
+Benvenuto nel progetto **mg-soundboard**! Questa applicazione è una soundboard gratuita e personalizzabile che ti consente di gestire e riprodurre file audio tramite scorciatoie da tastiera. È progettata per essere semplice da usare e altamente configurabile.
 
 ## Funzionalità
 
@@ -20,7 +20,7 @@ Benvenuto nel progetto **Soundboard**! Questa applicazione è una soundboard gra
 
     ```bash
     git clone https://github.com/Axel00x/mg-soundboard.git
-    cd soundboard
+    cd mg-soundboard
     ```
 
 2. **Installa le Dipendenze**:
