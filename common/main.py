@@ -116,31 +116,50 @@ class SoundboardApp:
         edit_window = tk.Toplevel(self.root)
         edit_window.title(f"Modifica {item_id}")
 
-        tk.Label(edit_window, text="Nome", font=('Arial', 10)).pack(pady=5)
+        # Configura la griglia
+        edit_window.columnconfigure(0, weight=1)
+        edit_window.columnconfigure(1, weight=2)
+        edit_window.rowconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
+
+        # Stile
+        label_font = ('Arial', 10, 'bold')
+        entry_font = ('Arial', 10)
+        button_font = ('Arial', 12)
+        padding = 10
+
+        # Nome
+        tk.Label(edit_window, text="Nome", font=label_font).grid(row=0, column=0, padx=padding, pady=padding, sticky="e")
         name_var = tk.StringVar(value=sound.name)
-        tk.Entry(edit_window, textvariable=name_var).pack(pady=5)
+        tk.Entry(edit_window, textvariable=name_var, font=entry_font).grid(row=0, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Label(edit_window, text="Shortcut", font=('Arial', 10)).pack(pady=5)
+        # Shortcut
+        tk.Label(edit_window, text="Shortcut", font=label_font).grid(row=1, column=0, padx=padding, pady=padding, sticky="e")
         key_var = tk.StringVar(value=item_id)
-        tk.Entry(edit_window, textvariable=key_var).pack(pady=5)
+        tk.Entry(edit_window, textvariable=key_var, font=entry_font).grid(row=1, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Label(edit_window, text="Loop", font=('Arial', 10)).pack(pady=5)
+        # Loop
+        tk.Label(edit_window, text="Loop", font=label_font).grid(row=2, column=0, padx=padding, pady=padding, sticky="e")
         loop_var = tk.BooleanVar(value=values[3] == "True")
-        tk.Checkbutton(edit_window, variable=loop_var).pack(pady=5)
+        tk.Checkbutton(edit_window, variable=loop_var).grid(row=2, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Label(edit_window, text="Stop Other Sounds", font=('Arial', 10)).pack(pady=5)
+        # Stop Other Sounds
+        tk.Label(edit_window, text="Stop Other Sounds", font=label_font).grid(row=3, column=0, padx=padding, pady=padding, sticky="e")
         stop_var = tk.BooleanVar(value=values[4] == "True")
-        tk.Checkbutton(edit_window, variable=stop_var).pack(pady=5)
+        tk.Checkbutton(edit_window, variable=stop_var).grid(row=3, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Label(edit_window, text="Volume (0-100)", font=('Arial', 10)).pack(pady=5)
+        # Volume
+        tk.Label(edit_window, text="Volume (0-100)", font=label_font).grid(row=4, column=0, padx=padding, pady=padding, sticky="e")
         volume_var = tk.IntVar(value=int(values[5]))
-        tk.Scale(edit_window, variable=volume_var, from_=0, to_=100, orient=tk.HORIZONTAL).pack(pady=5)
+        tk.Scale(edit_window, variable=volume_var, from_=0, to_=100, orient=tk.HORIZONTAL, length=200).grid(row=4, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Label(edit_window, text="Active", font=('Arial', 10)).pack(pady=5)
+        # Active
+        tk.Label(edit_window, text="Active", font=label_font).grid(row=5, column=0, padx=padding, pady=padding, sticky="e")
         active_var = tk.BooleanVar(value=values[6] == "True")
-        tk.Checkbutton(edit_window, variable=active_var).pack(pady=5)
+        tk.Checkbutton(edit_window, variable=active_var).grid(row=5, column=1, padx=padding, pady=padding, sticky="w")
 
-        tk.Button(edit_window, text="Salva", command=lambda: self.save_changes(item_id, key_var.get(), name_var.get(), loop_var, stop_var, volume_var, active_var, edit_window)).pack(pady=10)
+        # Salva
+        tk.Button(edit_window, text="Salva", font=button_font, command=lambda: self.save_changes(item_id, key_var.get(), name_var.get(), loop_var, stop_var, volume_var, active_var, edit_window)).grid(row=6, column=0, columnspan=2, pady=padding)
+
 
     def save_changes(self, old_key, new_key, new_name, loop_var, stop_var, volume_var, active_var, edit_window):
         if old_key != new_key:
