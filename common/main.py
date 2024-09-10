@@ -9,27 +9,24 @@ pygame.mixer.init()
 
 CONFIG_FILE = "config.json"
 
-# Funzione per salvare le impostazioni nel file JSON
 def save_config(soundboard):
     with open(CONFIG_FILE, 'w') as config_file:
         json.dump(soundboard, config_file)
 
-# Funzione per caricare le impostazioni dal file JSON
 def load_config():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, 'r') as config_file:
             return json.load(config_file)
     return {}
 
-# Classe per gestire ogni suono
 class Sound:
     def __init__(self, name, file, loop=False, stop_others=True, volume=1.0, active=True):
         self.name = name
         self.file = file
         try:
-            self.sound = pygame.mixer.Sound(file)  # Tenta di caricare il file audio
+            self.sound = pygame.mixer.Sound(file)  
         except pygame.error as e:
-            print(f"Errore nel caricamento del file audio {file}: {e}")
+            print(f"Error loading audio file {file}: {e}")
             self.sound = None
         self.loop = loop
         self.stop_others = stop_others
@@ -44,25 +41,24 @@ class Sound:
 
     def play(self):
         if not self.active or not self.sound:
-            return  # Se non è attivo o se il suono non è caricato correttamente
+            return  
         if self.stop_others:
             pygame.mixer.stop()
         self.apply_settings()
         if self.loop:
-            self.sound.play(-1)  # Ripete il suono all'infinito
+            self.sound.play(-1)  
         else:
-            self.sound.play()  # Riproduce una volta
+            self.sound.play()  
 
     def stop(self):
         if self.sound:
             self.sound.stop()
 
-# Creazione dell'interfaccia grafica
 class SoundboardApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Soundboard")
-        self.soundboard = load_config()  # Carica la configurazione dal file
+        self.root.title("mg-soundboard")
+        self.soundboard = load_config()  
         self.sounds = {key: Sound(**settings) for key, settings in self.soundboard.items()}
 
         style = ttk.Style()
@@ -87,8 +83,8 @@ class SoundboardApp:
         self.shortcut_active = tk.BooleanVar(value=True)
         tk.Checkbutton(self.root, text="Shortcut", variable=self.shortcut_active).pack()
 
-        tk.Button(self.root, text="Aggiungi Suono", command=self.add_sound).pack(pady=10)
-        tk.Button(self.root, text="Rimuovi Suono", command=self.remove_sound).pack(pady=5)
+        tk.Button(self.root, text="Add Sound", command=self.add_sound).pack(pady=10)
+        tk.Button(self.root, text="Remove Sound", command=self.remove_sound).pack(pady=5)
 
         self.setup_hotkeys()
 
@@ -99,7 +95,6 @@ class SoundboardApp:
     def auto_apply_settings(self):
         for key in self.sounds.keys():
             sound = self.sounds[key]
-            # Passa 'None' come valore per 'edit_window' poiché non stiamo aprendo una finestra di dialogo qui
             self.save_changes(key, key, sound.name, 
                             tk.BooleanVar(value=sound.loop), 
                             tk.BooleanVar(value=sound.stop_others), 
@@ -114,63 +109,54 @@ class SoundboardApp:
         values = item['values']
 
         edit_window = tk.Toplevel(self.root)
-        edit_window.title(f"Modifica {item_id}")
+        edit_window.title(f"Modify {item_id}")
 
-        # Configura la griglia
         edit_window.columnconfigure(0, weight=1)
         edit_window.columnconfigure(1, weight=2)
         edit_window.rowconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
 
-        # Stile
         label_font = ('Arial', 10, 'bold')
         entry_font = ('Arial', 10)
         button_font = ('Arial', 12)
         padding = 10
 
-        # Nome
         tk.Label(edit_window, text="Nome", font=label_font).grid(row=0, column=0, padx=padding, pady=padding, sticky="e")
         name_var = tk.StringVar(value=sound.name)
         tk.Entry(edit_window, textvariable=name_var, font=entry_font).grid(row=0, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Shortcut
         tk.Label(edit_window, text="Shortcut", font=label_font).grid(row=1, column=0, padx=padding, pady=padding, sticky="e")
         key_var = tk.StringVar(value=item_id)
         tk.Entry(edit_window, textvariable=key_var, font=entry_font).grid(row=1, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Loop
         tk.Label(edit_window, text="Loop", font=label_font).grid(row=2, column=0, padx=padding, pady=padding, sticky="e")
         loop_var = tk.BooleanVar(value=values[3] == "True")
         tk.Checkbutton(edit_window, variable=loop_var).grid(row=2, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Stop Other Sounds
         tk.Label(edit_window, text="Stop Other Sounds", font=label_font).grid(row=3, column=0, padx=padding, pady=padding, sticky="e")
         stop_var = tk.BooleanVar(value=values[4] == "True")
         tk.Checkbutton(edit_window, variable=stop_var).grid(row=3, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Volume
         tk.Label(edit_window, text="Volume (0-100)", font=label_font).grid(row=4, column=0, padx=padding, pady=padding, sticky="e")
         volume_var = tk.IntVar(value=int(values[5]))
         tk.Scale(edit_window, variable=volume_var, from_=0, to_=100, orient=tk.HORIZONTAL, length=200).grid(row=4, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Active
         tk.Label(edit_window, text="Active", font=label_font).grid(row=5, column=0, padx=padding, pady=padding, sticky="e")
         active_var = tk.BooleanVar(value=values[6] == "True")
         tk.Checkbutton(edit_window, variable=active_var).grid(row=5, column=1, padx=padding, pady=padding, sticky="w")
 
-        # Salva
-        tk.Button(edit_window, text="Salva", font=button_font, command=lambda: self.save_changes(item_id, key_var.get(), name_var.get(), loop_var, stop_var, volume_var, active_var, edit_window)).grid(row=6, column=0, columnspan=2, pady=padding)
+        tk.Button(edit_window, text="Save", font=button_font, command=lambda: self.save_changes(item_id, key_var.get(), name_var.get(), loop_var, stop_var, volume_var, active_var, edit_window)).grid(row=6, column=0, columnspan=2, pady=padding)
 
 
     def save_changes(self, old_key, new_key, new_name, loop_var, stop_var, volume_var, active_var, edit_window):
         if old_key != new_key:
             if new_key in self.sounds:
-                messagebox.showerror("Errore", "Lo shortcut scelto è già in uso!")
+                messagebox.showerror("Error", "The chosen shortcut is already in use!")
                 return
             self.sounds[new_key] = self.sounds.pop(old_key)
             self.tree.delete(old_key)
             self.tree.insert("", "end", iid=new_key, text=new_key, values=(new_key, self.sounds[new_key].file, new_name, str(loop_var.get()), str(stop_var.get()), str(volume_var.get()), str(active_var.get())))
-            keyboard.remove_hotkey(old_key)  # Rimuovi la vecchia hotkey
-            keyboard.add_hotkey(new_key, lambda k=new_key: self.play_sound(k))  # Imposta la nuova hotkey
+            keyboard.remove_hotkey(old_key)  
+            keyboard.add_hotkey(new_key, lambda k=new_key: self.play_sound(k))  
         else:
             self.tree.item(old_key, values=(new_key, self.sounds[old_key].file, new_name, str(loop_var.get()), str(stop_var.get()), str(volume_var.get()), str(active_var.get())))
 
@@ -192,7 +178,7 @@ class SoundboardApp:
         }
 
         if old_key != new_key:
-            del self.soundboard[old_key]  # Rimuovi il vecchio shortcut dal file di configurazione
+            del self.soundboard[old_key]  
 
         save_config(self.soundboard)
 
@@ -204,7 +190,7 @@ class SoundboardApp:
         if file_path:
             key = os.path.basename(file_path)[0]
             if key in self.sounds:
-                messagebox.showwarning("Attenzione", "Il tasto è già assegnato a un suono.")
+                messagebox.showwarning("Warning", "The key is already assigned to a sound.")
                 return
 
             sound = Sound(name=os.path.basename(file_path), file=file_path)
