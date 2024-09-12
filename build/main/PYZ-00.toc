@@ -1,5 +1,5 @@
 ('C:\\Users\\Acer\\OneDrive\\Desktop\\Programmazione\\Progetto '
- 'PY\\Soundboard\\mg-soundboard\\common\\build\\main\\PYZ-00.pyz',
+ 'PY\\Soundboard\\mg-soundboard\\build\\main\\PYZ-00.pyz',
  [('__future__',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.12_3.12.1776.0_x64__qbz5n2kfra8p0\\Lib\\__future__.py',
