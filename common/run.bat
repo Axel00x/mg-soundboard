@@ -14,7 +14,7 @@ echo.
 echo To start the mg-soundboard application, Python will be executed.
 echo Please wait...
 
-python main.py
+python mg-soundboard_main.py
 
 echo.
 echo ================================================================
