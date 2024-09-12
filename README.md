@@ -20,7 +20,7 @@ Welcome to the **mg-soundboard** project! This application is a free and customi
 
     ```bash
     git clone https://github.com/Axel00x/mg-soundboard.git
-    cd soundboard
+    cd mg-soundboard
     ```
 
 2. **Install Dependencies**:
