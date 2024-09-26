@@ -40,9 +40,7 @@ Welcome to the **mg-soundboard** project! This application is a free and customi
 
 1. **Run the Application**:
 
-    ```bash
-    python main.py
-    ```
+    ("\dist\mg-soundboard_main.exe")[https://github.com/Axel00x/mg-soundboard/blob/main/dist/mg-soundboard_main.exe]
 
 2. **User Interface**:
 
