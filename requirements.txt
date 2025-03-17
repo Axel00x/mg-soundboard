@@ -1,3 +1,5 @@
 pygame
 tk
 keyboard
+pyaudio
+pytube

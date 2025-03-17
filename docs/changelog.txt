@@ -1,0 +1,3 @@
+The function to change the output audio device has an error: the sound, if it is played on a different device than the default one, is played but the user does not hear it.
+
+The launcher does not work, use run.bat instead.
