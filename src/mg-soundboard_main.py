@@ -5,6 +5,8 @@ from tkinter import ttk, filedialog, messagebox, simpledialog
 import keyboard
 import pyaudio
 from pytube import YouTube
+import webbrowser
+
 from dep.config import *
 from dep.settings import *
 
@@ -100,6 +102,7 @@ class SoundboardApp:
         ttk.Button(button_frame, text="Add Sound", command=self.add_sound).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Remove Sound", command=self.remove_sound).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Import from YouTube", command=self.import_from_youtube).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="Site", command=self.open_site).pack(side=tk.LEFT, padx=5)
         self.setup_hotkeys()
         self.auto_apply_settings()
         self.check_playing_status()
@@ -300,7 +303,10 @@ class SoundboardApp:
             keyboard.add_hotkey(key, lambda k=key: self.play_sound(k))
         except Exception as e:
             messagebox.showerror("Error", f"Failed to import from YouTube: {str(e)}")
-
+    
+    def open_site(self):
+        webbrowser.open_new_tab("file:///"+ os.getcwd() + '/' + "src/site/index.htm")
+    
     def on_close(self):
         save_config(self.soundboard)
         self.root.destroy()
